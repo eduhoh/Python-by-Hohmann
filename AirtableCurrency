@@ -1,0 +1,54 @@
+// Change this to the name of a table in your base
+let table = base.getTable('Currencies');
+
+// Fetch conversion rate from API - you could change this to any API you want
+let apiResponse = await fetch('https://api.currencyfreaks.com/v2.0/rates/latest?apikey=8113046207184464a47758ec9ceb156b');
+let data = await apiResponse.json();
+console.log(data);
+let conversionRate = data.rates.MXN;
+console.log(`Conversion rate: ${conversionRate}`);
+
+// Update all the records
+let result = await table.selectRecordsAsync({fields: ['USD']});
+for (let record of result.records) {
+    await table.updateRecordAsync(record, {
+        // Change these names to fields in your base
+        'MXN': record.getCellValue('USD') * conversionRate,
+    });
+}
+
+let conversionRateGBP = data.rates.GBP;
+console.log(`Conversion rate: ${conversionRateGBP}`);
+
+// Update all the records
+let resultGBP = await table.selectRecordsAsync({fields: ['USD']});
+for (let record of resultGBP.records) {
+    await table.updateRecordAsync(record, {
+        // Change these names to fields in your base
+        'GBP': record.getCellValue('USD') * conversionRateGBP,
+    });
+}
+
+let conversionRateAUD = data.rates.AUD;
+console.log(`Conversion rate: ${conversionRateAUD}`);
+
+// Update all the records
+let resultAUD = await table.selectRecordsAsync({fields: ['USD']});
+for (let record of resultAUD.records) {
+    await table.updateRecordAsync(record, {
+        // Change these names to fields in your base
+        'AUD': record.getCellValue('USD') * conversionRateAUD,
+    });
+}
+
+let conversionRateCAD = data.rates.CAD;
+console.log(`Conversion rate: ${conversionRateCAD}`);
+
+// Update all the records
+let resultCAD = await table.selectRecordsAsync({fields: ['USD']});
+for (let record of resultCAD.records) {
+    await table.updateRecordAsync(record, {
+        // Change these names to fields in your base
+        'CAD': record.getCellValue('USD') * conversionRateCAD,
+    });
+}
